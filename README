@@ -1,0 +1,9 @@
+blender-atlasutil
+=================
+
+Texture atlas packer utilities for Blender 2.6.
+
+Installation
+------------
+
+Drop the `atlasutil` python module into Blender's `scripts/modules` path.

@@ -14,9 +14,11 @@ class Atlas(object):
         self.images = images
         self.margin = margin
 
+    def pack(self):
+        return pack(self.images, self.width, self.height, self.margin)
+
     def render(self, filename):
-        image_locations = pack(
-            self.images, self.width, self.height, self.margin)
+        image_locations = self.pack()
         channels = set()
         for image in self.images:
             channels.update(image.channels.keys())
@@ -29,3 +31,4 @@ class Atlas(object):
                 filename % {'channel': channel},
                 self.width, self.height,
                 channel_locations)
+        return image_locations
