@@ -1,7 +1,7 @@
 from atlasutil.renderer import render
 from atlasutil.packer import pack, PackOverflow
 
-class Image(dict):
+class Image(object):
     def __init__(self, width, height, channels):
         self.width = width
         self.height = height
