@@ -65,7 +65,24 @@ which are both `0` by default:
 
 The remaining items in the atlas list are the group names to consider
 as part of the atlas, as well as their constituent objects and
-textures.
+textures.  You can also tune the size of textures for a any of the
+listed groups like this:
+
+    [group]@[maxsize]
+
+This will constrain any textures used by that group to that size or
+smaller.  This is useful if you want to fine-tune how much real estate
+each group's textures take up in the atlas.  For example:
+
+    (
+        'oranges@512x512', # atlas format string
+        'valencia@64',
+        'blood@128',
+        'navel@64',
+    )
+
+If a texture is used by multiple groups, the highest `maxsize` defined
+will be used.
 
 Generating Libraries
 --------------------
