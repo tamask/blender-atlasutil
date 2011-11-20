@@ -212,9 +212,11 @@ class LibraryAtlas(atlas.Atlas):
             raise atlas.PackOverflow(self.name)
 
     def adjust_library_data(self):
-        atlas_images = [
-            bpy.data.images.load(i)
-            for i in set([d for (s, c, d, l) in self.chart])]
+        atlas_images = dict(
+            (i, bpy.data.images.load(i))
+            for i in set([d for (s, c, d, l) in self.chart]))
+        for dest, image in atlas_images.items():
+            image.name = os.path.basename(dest).rsplit('.', 1)[0]
         altered_uv_textures = []
 
         for src, channel, dest, location in self.chart:
@@ -227,7 +229,7 @@ class LibraryAtlas(atlas.Atlas):
             # TODO: this next part is pretty fragile, might need a
             # more robust way to install atlas textures
 
-            atlas_image = bpy.data.images[os.path.basename(dest)]
+            atlas_image = atlas_images[dest]
             for texture in src.textures:
                 texture.image = atlas_image
 
