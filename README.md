@@ -84,6 +84,10 @@ each group's textures take up in the atlas.  For example:
 If a texture is used by multiple groups, the highest `maxsize` defined
 will be used.
 
+Currently `atlasutil` doesn't automatically sequence atlases into
+multiple textures if not all textures can fit. Each atlas texture
+needs to be explicitly defined in the configuration script.
+
 Generating Libraries
 --------------------
 
@@ -107,6 +111,9 @@ This is what happens when making a library blendfile:
 
 * The UVs and textures of objects are updated to use the atlas
   textures generated.
+
+If the textures collected for an atlas cannot fit into the specified
+atlas, a `PackOverflow` error will be thrown.
 
 Texture Channels
 ----------------
