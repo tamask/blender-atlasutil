@@ -18,17 +18,20 @@ class Atlas(object):
         return pack(self.images, self.width, self.height, self.margin)
 
     def render(self, filename):
+        chart = []
         image_locations = self.pack()
         channels = set()
         for image in self.images:
             channels.update(image.channels.keys())
         for channel in channels:
+            output = filename % {'channel': channel}
             channel_locations = [
                 (image.channels[channel], location)
                 for (image, location) in image_locations
                 if channel in image.channels]
-            render(
-                filename % {'channel': channel},
-                self.width, self.height,
-                channel_locations)
-        return image_locations
+            chart.extend(
+                (image, channel, output, loc)
+                for (image, loc) in image_locations
+                if channel in image.channels)
+            render(output, self.width, self.height, channel_locations)
+        return chart
