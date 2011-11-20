@@ -26,15 +26,16 @@ class Library(object):
 
         self.atlases = []
         for atlas_def in atlases:
+            margin = trim = 0.
             name, params = atlas_def[0].split('@')
-            if ':' in params:
-                dimensions, margin = params.split(':')
-                width, height = map(int, dimensions.split('x'))
-                margin = float(margin)
-            else:
-                (width, height) = map(int, params.split('x'))
-                margin = 0.
-            atlas_obj = LibraryAtlas(self, name, atlas_def[1:], width, height, margin)
+            dimensions, *rest = params.split(':')
+            width, height = map(float, dimensions.split('x'))
+            if len(rest) > 0:
+                margin = float(rest[0])
+            if len(rest) > 1:
+                trim = float(rest[1])
+            atlas_obj = LibraryAtlas(
+                self, name, atlas_def[1:], width, height, margin, trim)
             self.atlases.append(atlas_obj)
 
         self.atlas_textures_path = os.path.join(self.basepath, self.textures_path)
@@ -81,8 +82,11 @@ class Library(object):
             check_existing=False)
 
 class LibraryAtlas(atlas.Atlas):
-    def __init__(self, library, name, groups, width, height, margin):
-        super(LibraryAtlas, self).__init__(width, height, [], margin)
+    def __init__(
+        self, library, name, groups, width, height,
+        margin=0., trim=0.):
+
+        super(LibraryAtlas, self).__init__(width, height, [], margin, trim)
         self.library = library
         self.name = name
 
@@ -91,7 +95,7 @@ class LibraryAtlas(atlas.Atlas):
         for group in groups:
             if '@' in group:
                 group_name, size = group.split('@', 1)
-                size = int(size)
+                size = float(size)
             else:
                 group_name = group
                 size = -1
@@ -198,9 +202,12 @@ class LibraryAtlas(atlas.Atlas):
             self.images.append(lib_image)
 
     def render(self):
-        self.chart = super(LibraryAtlas, self).render(os.path.join(
-            self.library.atlas_textures_path,
-            '%s_%%(channel)s.png' % self.name))
+        try:
+            self.chart = super(LibraryAtlas, self).render(os.path.join(
+                self.library.atlas_textures_path,
+                '%s_%%(channel)s.png' % self.name))
+        except atlas.PackOverflow as exc:
+            raise atlas.PackOverflow(self.name)
 
     def adjust_library_data(self):
         atlas_images = [

@@ -17,10 +17,10 @@ def sort_by_largest(objects):
             get_item_or_attr(i, 'height')))
     return objects
 
-def pack(objects, width, height, margin=0.):
+def pack(objects, width, height, margin=0., trim=0.):
     root = PackNode(
         0., 0., float(width), float(height),
-        margin=float(margin))
+        margin=float(margin), trim=float(trim))
     for obj in sort_by_largest(objects):
         node = root.insert(obj)
         if node is None:
@@ -32,7 +32,7 @@ class PackOverflow(Exception): pass
 class PackNode(object):
     def __init__(
         self, x, y, width, height,
-        obj=None, a=None, b=None, margin=0.):
+        obj=None, a=None, b=None, margin=0., trim=0.):
 
         self.x = x
         self.y = y
@@ -42,6 +42,7 @@ class PackNode(object):
         self.b = b
         self.obj = obj
         self.margin = margin
+        self.trim = trim
 
     def insert(self, obj):
         width = self.width - self.margin
@@ -78,28 +79,32 @@ class PackNode(object):
                         a_height = self.height
                         b_x = self.x + a_width
                         b_y = self.y
-                        b_width = delta_width;
+                        b_width = delta_width
                         b_height = self.height
                     else:
                         a_x = self.x
                         a_y = self.y
                         a_height = obj_height + self.margin
-                        a_width = self.width;
+                        a_width = self.width
                         b_x = self.x
-                        b_y = self.y + a_height;
-                        b_height = delta_height;
-                        b_width = self.width;
+                        b_y = self.y + a_height
+                        b_height = delta_height
+                        b_width = self.width
                     self.a = self.__class__(
-                        a_x, a_y, a_width, a_height, margin=self.margin)
+                        a_x, a_y, a_width, a_height,
+                        margin=self.margin, trim=self.trim)
                     self.b = self.__class__(
-                        b_x, b_y, b_width, b_height, margin=self.margin)
+                        b_x, b_y, b_width, b_height,
+                        margin=self.margin, trim=self.trim)
                     return self.a.insert(obj)
 
     def flatten(self):
         if self.obj is not None:
             return [(self.obj, (
-                    self.x, self.y,
-                    self.width - self.margin, self.height - self.margin))]
+                self.x + self.trim,
+                self.y + self.trim,
+                self.width - self.margin - (self.trim * 2.),
+                self.height - self.margin - (self.trim * 2)))]
         if self.a and self.b:
             return self.a.flatten() + self.b.flatten()
         else:

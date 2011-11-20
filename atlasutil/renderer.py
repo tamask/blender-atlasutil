@@ -22,14 +22,14 @@ def render(filename, width, height, quads):
     scene.render.file_format = 'PNG'
     scene.render.color_mode = 'RGBA'
 
-    if width < height:
+    if width > height:
         ortho_scale = width
-        camera_offset_x = -(width - height) / 2.
-        camera_offset_y = 0.
+        camera_offset_y = -(width - height) / 2.
+        camera_offset_x = 0.
     else:
         ortho_scale = height
-        camera_offset_x = 0.
-        camera_offset_y = -(height - width) / 2.
+        camera_offset_y = 0.
+        camera_offset_x = -(height - width) / 2.
 
     bpy.ops.object.add(type='CAMERA')
     camera = bpy.context.active_object

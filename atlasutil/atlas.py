@@ -8,14 +8,20 @@ class Image(object):
         self.channels = channels
 
 class Atlas(object):
-    def __init__(self, width, height, images, margin=0.):
+    def __init__(
+        self, width, height, images,
+        margin=0., trim=0.):
+
         self.width = width
         self.height = height
         self.images = images
         self.margin = margin
+        self.trim = trim
 
     def pack(self):
-        return pack(self.images, self.width, self.height, self.margin)
+        return pack(
+            self.images, self.width, self.height,
+            self.margin, self.trim)
 
     def render(self, filename):
         chart = []
