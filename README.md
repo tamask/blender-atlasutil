@@ -135,9 +135,9 @@ You can also use the renderer directly (rendering is done with Blender
 itself).  Rendering is done this way so there are no dependencies on
 external image compositing libraries:
 
-from atlasutil.renderer import render
+    from atlasutil import renderer
 
-    render(
+    renderer.render(
         filename='output.png',
         width=1024, height=1024,
         quads=(
