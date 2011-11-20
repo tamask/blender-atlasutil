@@ -146,6 +146,8 @@ class LibraryAtlas(atlas.Atlas):
                             channels.append('specular')
                         if tslot.use_map_emit:
                             channels.append('emit')
+                        if tslot.use_map_normal:
+                            channels.append('normal')
                         if not channels:
                             continue
 

@@ -113,12 +113,13 @@ Texture Channels
     
 `atlasutil`'s library generation makes some decisions about how atlas
 textures are generated.  Currently, `atlasutil` interprets a number of
-'channels' from a material's textures: `color`, `specular` and `emit`.
-A separate atlas image is generated for each channel so that the
-object's UVs remain effective for these properties.
+'channels' from a material's textures: `color`, `specular`, `normal`
+and `emit`.  A separate atlas image is generated for each channel so
+that the object's UVs remain effective for these properties.
 
 These mappings should probably be configurable at some point, but
-their not at the moment.
+their not at the moment (see
+`atlasutil.library.LibraryAtlas.collect_images()` for details).
 
 Generic Packing Utilities
 -------------------------
