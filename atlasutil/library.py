@@ -219,8 +219,8 @@ class LibraryAtlas(atlas.Atlas):
             x, y, width, height = location
             x /= float(self.width)
             y /= float(self.height)
-            width = src.width / float(self.width)
-            height = src.height / float(self.height)
+            width /= float(self.width)
+            height /= float(self.height)
 
             # TODO: this next part is pretty fragile, might need a
             # more robust way to install atlas textures

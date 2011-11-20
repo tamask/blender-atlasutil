@@ -104,7 +104,7 @@ class PackNode(object):
                 self.x + self.trim,
                 self.y + self.trim,
                 self.width - self.margin - (self.trim * 2.),
-                self.height - self.margin - (self.trim * 2)))]
+                self.height - self.margin - (self.trim * 2.)))]
         if self.a and self.b:
             return self.a.flatten() + self.b.flatten()
         else:
