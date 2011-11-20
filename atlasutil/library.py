@@ -146,7 +146,10 @@ class LibraryAtlas(atlas.Atlas):
                             continue
 
                         image = tslot.texture.image
-                        uv_texture = mesh.uv_textures[tslot.uv_layer]
+                        if tslot.uv_layer:
+                            uv_texture = mesh.uv_textures[tslot.uv_layer]
+                        else:
+                            uv_texture = mesh.uv_textures.active
                         if max_size > 0:
                             width, height = constrain_size(
                                 image.size[0], image.size[1], max_size)
