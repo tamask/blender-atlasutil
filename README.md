@@ -77,19 +77,19 @@ described above.  For example:
     
 This is what happens when making a library blendfile:
 
-    * All groups are appended to the library blendfile
+* All groups are appended to the library blendfile
 
-    * Atlases collect their constituent groups/objects and their
-      dependent textures.
+* Atlases collect their constituent groups/objects and their
+  dependent textures.
 
-    * Textures are packed according to the parameters set in the
-      config script
+* Textures are packed according to the parameters set in the
+  config script
 
-    * Texture atlases are rendered using Blender itself, and output
-      into a `textures` directory alongside the library blendfile
+* Texture atlases are rendered using Blender itself, and output
+  into a `textures` directory alongside the library blendfile
 
-    * The UVs and textures of objects are updated to use the atlas
-      textures generated.
+* The UVs and textures of objects are updated to use the atlas
+  textures generated.
 
 Texture Channels
 ----------------
@@ -137,15 +137,15 @@ external image compositing libraries:
 
 from atlasutil.renderer import render
 
-render(
-    filename='output.png',
-    width=1024, height=1024,
-    quads=(
-        # (texture, (x, y, width, height))
-        ('path/to/texture_a.png', (0, 0, 128, 128)),
-        ('path/to/texture_b.png', (129, 0, 128, 128)),
-        ...
+    render(
+        filename='output.png',
+        width=1024, height=1024,
+        quads=(
+            # (texture, (x, y, width, height))
+            ('path/to/texture_a.png', (0, 0, 128, 128)),
+            ('path/to/texture_b.png', (129, 0, 128, 128)),
+            ...
+        )
     )
-)
 
 Currently `render` always outputs as `PNG` format.
