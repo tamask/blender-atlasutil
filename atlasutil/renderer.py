@@ -7,6 +7,7 @@ def approx_eq(a, b):
     return abs(a - b) < EPSILON
 
 def render(filename, width, height, quads):
+    # TODO handle images packed in blendfile passed in `quads`
     materials = []
     textures = []
     images = []
