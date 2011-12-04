@@ -45,7 +45,10 @@ class Library(object):
     def build(self):
         self.import_groups()
         for atlas in self.atlases:
-            atlas.build()
+            # attempt to pack all atlases before rendering step
+            atlas.step_1()
+            # render each atlas
+            atlas.step_2()
         self.save_blendfile()
 
     def import_groups(self):
@@ -103,9 +106,12 @@ class LibraryAtlas(atlas.Atlas):
             self.group_sizes[group_name] = size
         self.image_locations = []
 
-    def build(self):
+    def step_1(self):
         self.make_meshes()
         self.collect_images()
+        self.pack()
+
+    def step_2(self):
         self.render()
         self.adjust_library_data()
 
@@ -203,13 +209,16 @@ class LibraryAtlas(atlas.Atlas):
 
             self.images.append(lib_image)
 
-    def render(self):
+    def pack(self):
         try:
-            self.chart = super(LibraryAtlas, self).render(os.path.join(
-                self.library.atlas_textures_path,
-                '%s_%%(channel)s.png' % self.name))
+            return super(LibraryAtlas, self).pack()
         except atlas.PackOverflow as exc:
             raise atlas.PackOverflow(self.name)
+
+    def render(self):
+        self.chart = super(LibraryAtlas, self).render(os.path.join(
+            self.library.atlas_textures_path,
+            '%s_%%(channel)s.png' % self.name))
 
     def adjust_library_data(self):
         atlas_images = dict(

@@ -40,6 +40,8 @@ def render(filename, width, height, quads):
     camera.location.z = 1.0
     camera.location.x = camera_offset_x
     camera.location.y = camera_offset_y
+    camera.data.clip_start = 0.1
+    camera.data.clip_end = 2.0
     scene.camera = camera
 
     for quad in quads:
