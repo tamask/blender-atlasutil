@@ -19,8 +19,8 @@ def render(filename, width, height, quads):
     scene.render.resolution_y = height
     scene.render.resolution_percentage = 100
     scene.render.filepath = filename.rsplit('.', 1)[0]
-    scene.render.file_format = 'PNG'
-    scene.render.color_mode = 'RGBA'
+    scene.render.image_settings.file_format = 'PNG'
+    scene.render.image_settings.color_mode = 'RGBA'
 
     if width > height:
         ortho_scale = width
