@@ -44,11 +44,15 @@ class Library(object):
 
     def build(self):
         self.import_groups()
+
+        # attempt to pack all atlases first
         for atlas in self.atlases:
-            # attempt to pack all atlases before rendering step
             atlas.step_1()
-            # render each atlas
+
+        # render each atlas
+        for atlas in self.atlases:
             atlas.step_2()
+
         self.save_blendfile()
 
     def import_groups(self):
